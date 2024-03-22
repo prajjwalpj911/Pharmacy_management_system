@@ -1,0 +1,52 @@
+<!-- sell.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('serve_static', filename='styles.css') }}">
+    <title>Sell Medicine</title>
+</head>
+<a href="{{ url_for('index') }}">Home</a>
+<body>
+    <h2 align = "center">Sell Medicine</h2>
+    <form method="post" action="{{ url_for('sell') }}">
+        <label for="sell_option">Sell Option:</label>
+        <select name="sell_option" id="sell_option">
+            <option value="by_id">By ID</option>
+            <option value="by_name">By Name</option>
+        </select>
+        <br>
+
+        <!-- Dropdown menu for medicine names -->
+        <div id="medicine_dropdown" style="display: none;">
+            <label for="medicine_name">Medicine Name:</label>
+            <select name="medicine_name" id="medicine_name">
+                {% for medicine in medicines %}
+                    <option value="{{ medicine[1] }}">{{ medicine[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+        </div>
+
+        <label for="quantity_sold">Quantity Sold:</label>
+        <input type="number" name="quantity_sold" id="quantity_sold" required>
+        <br>
+
+        <input type="hidden" name="medicine_id" id="medicine_id">
+        <button type="submit">Sell Medicine</button>
+    </form>
+    <br>
+    
+
+    <!-- Script to toggle the visibility of the medicine dropdown based on the selected sell option -->
+    <script>
+        document.getElementById('sell_option').addEventListener('change', function () {
+            var medicineDropdown = document.getElementById('medicine_dropdown');
+            medicineDropdown.style.display = (this.value === 'by_name') ? 'block' : 'none';
+            document.getElementById('medicine_id').value = '';
+        });
+    </script>
+    
+</body>
+</html>
